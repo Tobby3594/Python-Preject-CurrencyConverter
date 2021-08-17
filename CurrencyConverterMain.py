@@ -75,6 +75,7 @@ class CurrencyConverter():
     # func to convert
     def convert(self):
         try:
+            #Conversion calculation
             _from = self._select_from.get()
             _from_count = int(self.inp_from.get())
             _to = self._select_to.get()
@@ -83,6 +84,7 @@ class CurrencyConverter():
             USD_value = (1 / currency_value_from) * _from_count
             currency_value_to = _json["rates"][_to] * USD_value
             self.tv_result.set(str(currency_value_to))
+
             # show label to
             self.lbl_to_resulr.config(text=self.tv_result.get())
             self.lbl_to_resulr.pack(fill="y")
@@ -91,17 +93,17 @@ class CurrencyConverter():
             self.lbl_error.config(text=self.tv_error.get())
             print(currency_value_to)
         except:
-            # lbl error
-            # lbl_error.config(text="pleas enter all values")
+            #reset the lbl_to_result
             self.tv_result.set("")
             self.lbl_to_resulr.config(text=self.tv_result.get())
             self.lbl_to_resulr.pack(fill="y")
+            # lbl error
             self.tv_error.set("pleas enter all values")
             self.lbl_error.config(text=self.tv_error.get())
             self.lbl_error.pack(fill="y")
+
+    #Launch the app
     def run(self):
-
-
         self.f.mainloop()
 
 
