@@ -7,7 +7,64 @@ import json
 
 class CurrencyConverter():
     def __init__(self):
-        pass
+        self.f = Tk()
+        self.f.title(" Currency Converter in Python")
+        self.f.geometry("350x250+400+300")
+
+        # tv result
+        self.tv_result = StringVar()
+        self.tv_result.set("")
+        # create label to
+        self.lbl_to_resulr = Label(self.f, text=self.tv_result.get(), anchor="w")
+        self.lbl_to_resulr.config(fg="red")
+
+        # tv title
+        self.tv_title = StringVar()
+        _json = self.convertToServer()
+        self.tv_title.set(_json["date"])
+
+        # tv error
+        self.tv_error = StringVar()
+        self.tv_error.set("pleas enter all values")
+        self.lbl_error = Label(self.f, text=self.tv_error.get(), anchor="w")
+        # lbl_error = Label(f, text="pleas enter all values", anchor="w")
+
+        # list of cons
+        data = self.convertToServer()
+        arr_cons = list(data["rates"].keys())
+
+        self.lbl_hand = Label(self.f, text="Today is " + self.tv_title.get(), anchor="w")
+        self.lbl_hand.config(fg="red")
+        self.lbl_hand.pack(side="top", padx=80, pady=15)
+
+        # label from
+        self.lbl_from = Label(self.f, text="From: ", anchor="w")
+        self.lbl_from.pack(fill="y")
+
+        # select cons from
+        self._from_n = tk.StringVar()
+        self._select_from = ttk.Combobox(self.f, width=27, textvariable=self._from_n)
+        self._select_from['values'] = arr_cons
+        self._select_from.pack()
+
+        # input from
+        self.inp_from = Entry(self.f)
+        self.inp_from.pack()
+
+        # label to
+        self.lbl_to = Label(self.f, text="To", anchor="w")
+        self.lbl_to.pack(fill="y")
+
+        # select cons to
+        self._to_n = tk.StringVar()
+        self._select_to = ttk.Combobox(self.f, width=27, textvariable=self._to_n)
+        self._select_to['values'] = arr_cons
+        self._select_to.pack(expand=YES)
+
+        # button to convert
+        self.btn = Button(self.f, text="Convert", command=self.convert)
+        self.btn.config(bg="red")
+        self.btn.pack(side="bottom", padx=80, pady=12)
 
     # connect to derver
     def convertToServer(self):
@@ -30,76 +87,22 @@ class CurrencyConverter():
             self.lbl_to_resulr.config(text=self.tv_result.get())
             self.lbl_to_resulr.pack(fill="y")
             # lbl error
-            self.tv_result.set("")
-            self.lbl_error.config(text=self.tv_result.get())
+            self.tv_error.set("")
+            self.lbl_error.config(text=self.tv_error.get())
             print(currency_value_to)
         except:
             # lbl error
             # lbl_error.config(text="pleas enter all values")
-            self.tv_result.set("pleas enter all values")
-            self.lbl_error.config(text=self.tv_result.get())
+            self.tv_result.set("")
+            self.lbl_to_resulr.config(text=self.tv_result.get())
+            self.lbl_to_resulr.pack(fill="y")
+            self.tv_error.set("pleas enter all values")
+            self.lbl_error.config(text=self.tv_error.get())
             self.lbl_error.pack(fill="y")
     def run(self):
-        f = Tk()
-        f.title(" Currency Converter in Python")
-        f.geometry("350x250+400+300")
 
-        # tv result
-        tv_result = StringVar()
-        tv_result.set("")
-        # create label to
-        lbl_to_resulr = Label(f, text=tv_result.get(), anchor="w")
-        lbl_to_resulr.config(fg="red")
 
-        # tv title
-        tv_title = StringVar()
-        _json = self.convertToServer()
-        tv_title.set(_json["date"])
-
-        # tv error
-        tv_error = StringVar()
-        tv_error.set("pleas enter all values")
-        lbl_error = Label(f, text=tv_error.get(), anchor="w")
-        # lbl_error = Label(f, text="pleas enter all values", anchor="w")
-
-        # list of cons
-        data = self.convertToServer()
-        arr_cons = list(data["rates"].keys())
-
-        lbl_hand = Label(f, text="Today is " + tv_title.get(), anchor="w")
-        lbl_hand.config(fg="red")
-        lbl_hand.pack(side="top", padx=80, pady=15)
-
-        # label from
-        lbl_from = Label(f, text="From: ", anchor="w")
-        lbl_from.pack(fill="y")
-
-        # select cons from
-        _from_n = tk.StringVar()
-        _select_from = ttk.Combobox(f, width=27, textvariable=_from_n)
-        _select_from['values'] = arr_cons
-        _select_from.pack()
-
-        # input from
-        inp_from = Entry(f)
-        inp_from.pack()
-
-        # label to
-        lbl_to = Label(f, text="To", anchor="w")
-        lbl_to.pack(fill="y")
-
-        # select cons to
-        _to_n = tk.StringVar()
-        _select_to = ttk.Combobox(f, width=27, textvariable=_to_n)
-        _select_to['values'] = arr_cons
-        _select_to.pack(expand=YES)
-
-        # button to convert
-        btn = Button(f, text="Convert", command=self.convert)
-        btn.config(bg="red")
-        btn.pack(side="bottom", padx=80, pady=12)
-
-        f.mainloop()
+        self.f.mainloop()
 
 
 
